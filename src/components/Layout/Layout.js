@@ -1,10 +1,11 @@
 import React from "react";
-
-const Layout = props => (
+import { withStyles } from "@material-ui/core/styles";
+import styles from "./style";
+const Layout = ({ classes, children }) => (
   <>
     <div>Toolbar,SideDrawer,Backdrop</div>
-    <main>{props.children}</main>
+    <main className={classes.Content}>{children}</main>
   </>
 );
 
-export default Layout;
+export default withStyles(styles)(Layout);

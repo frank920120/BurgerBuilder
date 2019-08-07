@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./styles.css";
 
-const BurgerIngredient = ({ types }) => {
+const BurgerIngredient = ({ type }) => {
   let ingredient = null;
 
-  switch (types) {
+  switch (type) {
     case "bread-bottom":
       ingredient = <div className="BreadBottom" />;
       break;

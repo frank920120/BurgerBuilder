@@ -1,11 +1,15 @@
 import React from "react";
 import "./styles.css";
-const BuildControl = ({ label }) => {
+const BuildControl = ({ label, IncreaseIngredients, DecreaseIngredients }) => {
   return (
     <div className="BuildControl">
       <div className="Label">{label}</div>
-      <button className="Less">Less</button>
-      <button className="More">More</button>
+      <button onClick={() => DecreaseIngredients(label)} className="Less">
+        Less
+      </button>
+      <button onClick={() => IncreaseIngredients(label)} className="More">
+        More
+      </button>
     </div>
   );
 };

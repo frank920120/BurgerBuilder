@@ -8,7 +8,11 @@ const controls = [
   { label: "Cheese", type: "cheese" },
   { label: "Meat", type: "meat" }
 ];
-const BuildControls = ({ IncreaseIngredients, DecreaseIngredients }) => {
+const BuildControls = ({
+  IncreaseIngredients,
+  DecreaseIngredients,
+  disableInfo
+}) => {
   return (
     <div className="BuildControls">
       {controls.map(control => (
@@ -17,6 +21,7 @@ const BuildControls = ({ IncreaseIngredients, DecreaseIngredients }) => {
           label={control.label}
           IncreaseIngredients={IncreaseIngredients}
           DecreaseIngredients={DecreaseIngredients}
+          disableInfo={disableInfo[control.type]}
         />
       ))}
     </div>

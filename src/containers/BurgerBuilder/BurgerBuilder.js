@@ -19,9 +19,24 @@ class BurgerBuilder extends Component {
         cheese: 0,
         meat: 0
       },
-      totalPrice: 4
+      totalPrice: 4,
+      purchaseable: false
     };
   }
+
+  updatePurchaseState = () => {
+    const ingredients = { ...this.state.ingredients };
+    const sum = Object.keys(ingredients)
+      .map(igKey => {
+        return ingredients[igKey];
+      })
+      .reduce((sum, el) => {
+        return sum + el;
+      }, 0);
+    this.setState({
+      purchaseable: sum > 0
+    });
+  };
 
   IncreaseIngredients = type => {
     const convertType = type.toLowerCase();
@@ -29,22 +44,27 @@ class BurgerBuilder extends Component {
     const priceAddition = INGREDIENT_PRICE[convertType];
     const oldPrice = this.state.totalPrice;
     const newPrice = oldPrice + priceAddition;
-    this.setState({
-      ingredients: {
-        ...this.state.ingredients,
-        [convertType]:
-          convertType === "salad"
-            ? salad + 1
-            : convertType === "bacon"
-            ? bacon + 1
-            : convertType === "cheese"
-            ? cheese + 1
-            : convertType === "meat"
-            ? meat + 1
-            : null
+    this.setState(
+      {
+        ingredients: {
+          ...this.state.ingredients,
+          [convertType]:
+            convertType === "salad"
+              ? salad + 1
+              : convertType === "bacon"
+              ? bacon + 1
+              : convertType === "cheese"
+              ? cheese + 1
+              : convertType === "meat"
+              ? meat + 1
+              : null
+        },
+        totalPrice: newPrice
       },
-      totalPrice: newPrice
-    });
+      () => {
+        this.updatePurchaseState();
+      }
+    );
   };
 
   DecreaseIngredients = type => {
@@ -53,30 +73,35 @@ class BurgerBuilder extends Component {
     const priceAddition = INGREDIENT_PRICE[convertType];
     const oldPrice = this.state.totalPrice;
     const newPrice = oldPrice - priceAddition;
-    this.setState({
-      ingredients: {
-        ...this.state.ingredients,
-        [convertType]:
-          convertType === "salad"
-            ? salad === 0
-              ? 0
-              : salad - 1
-            : convertType === "bacon"
-            ? bacon === 0
-              ? 0
-              : bacon - 1
-            : convertType === "cheese"
-            ? cheese === 0
-              ? 0
-              : cheese - 1
-            : convertType === "meat"
-            ? meat === 0
-              ? 0
-              : meat - 1
-            : null
+    this.setState(
+      {
+        ingredients: {
+          ...this.state.ingredients,
+          [convertType]:
+            convertType === "salad"
+              ? salad === 0
+                ? 0
+                : salad - 1
+              : convertType === "bacon"
+              ? bacon === 0
+                ? 0
+                : bacon - 1
+              : convertType === "cheese"
+              ? cheese === 0
+                ? 0
+                : cheese - 1
+              : convertType === "meat"
+              ? meat === 0
+                ? 0
+                : meat - 1
+              : null
+        },
+        totalPrice: newPrice
       },
-      totalPrice: newPrice
-    });
+      () => {
+        this.updatePurchaseState();
+      }
+    );
   };
 
   render() {
@@ -94,6 +119,7 @@ class BurgerBuilder extends Component {
           DecreaseIngredients={this.DecreaseIngredients}
           disableInfo={disableInfo}
           totalPrice={this.state.totalPrice}
+          purchaseable={this.state.purchaseable}
         />
       </>
     );

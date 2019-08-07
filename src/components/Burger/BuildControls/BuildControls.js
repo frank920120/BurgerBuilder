@@ -12,7 +12,8 @@ const BuildControls = ({
   IncreaseIngredients,
   DecreaseIngredients,
   disableInfo,
-  totalPrice
+  totalPrice,
+  purchaseable
 }) => {
   return (
     <div className="BuildControls">
@@ -28,6 +29,9 @@ const BuildControls = ({
           disableInfo={disableInfo[control.type]}
         />
       ))}
+      <button disabled={!purchaseable} className="OrderButton">
+        OEDER NOW
+      </button>
     </div>
   );
 };

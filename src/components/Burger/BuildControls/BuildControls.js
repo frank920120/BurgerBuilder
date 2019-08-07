@@ -11,10 +11,14 @@ const controls = [
 const BuildControls = ({
   IncreaseIngredients,
   DecreaseIngredients,
-  disableInfo
+  disableInfo,
+  totalPrice
 }) => {
   return (
     <div className="BuildControls">
+      <p>
+        Total Price : <strong>{totalPrice.toFixed(2)}</strong>
+      </p>
       {controls.map(control => (
         <BuildControl
           key={control.label}

@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import Burger from "../../components/Burger/Burger";
 import BurgerControls from "../../components/Burger/BuildControls/BuildControls";
+
+const INGREDIENT_PRICE = {
+  salad: 0.5,
+  cheese: 0.4,
+  meat: 1.3,
+  bacon: 0.6
+};
+
 class BurgerBuilder extends Component {
   constructor(props) {
     super(props);
@@ -10,13 +18,17 @@ class BurgerBuilder extends Component {
         bacon: 0,
         cheese: 0,
         meat: 0
-      }
+      },
+      totalPrice: 4
     };
   }
 
   IncreaseIngredients = type => {
     const convertType = type.toLowerCase();
     const { salad, bacon, cheese, meat } = this.state.ingredients;
+    const priceAddition = INGREDIENT_PRICE[convertType];
+    const oldPrice = this.state.totalPrice;
+    const newPrice = oldPrice + priceAddition;
     this.setState({
       ingredients: {
         ...this.state.ingredients,
@@ -30,13 +42,17 @@ class BurgerBuilder extends Component {
             : convertType === "meat"
             ? meat + 1
             : null
-      }
+      },
+      totalPrice: newPrice
     });
   };
 
   DecreaseIngredients = type => {
     const convertType = type.toLowerCase();
     const { salad, bacon, cheese, meat } = this.state.ingredients;
+    const priceAddition = INGREDIENT_PRICE[convertType];
+    const oldPrice = this.state.totalPrice;
+    const newPrice = oldPrice - priceAddition;
     this.setState({
       ingredients: {
         ...this.state.ingredients,
@@ -58,7 +74,8 @@ class BurgerBuilder extends Component {
               ? 0
               : meat - 1
             : null
-      }
+      },
+      totalPrice: newPrice
     });
   };
 
@@ -76,6 +93,7 @@ class BurgerBuilder extends Component {
           IncreaseIngredients={this.IncreaseIngredients}
           DecreaseIngredients={this.DecreaseIngredients}
           disableInfo={disableInfo}
+          totalPrice={this.state.totalPrice}
         />
       </>
     );
